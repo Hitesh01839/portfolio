@@ -52,7 +52,7 @@ export default function Lab() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 60%",
         },
       });
 
@@ -63,7 +63,7 @@ export default function Lab() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 60%",
         },
       });
     }, sectionRef);

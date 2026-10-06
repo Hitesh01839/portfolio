@@ -37,7 +37,7 @@ export default function About() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 75%",
+          start: "top 65%",
         },
       });
 
@@ -48,7 +48,7 @@ export default function About() {
         ease: "power3.inOut",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 60%",
         },
       });
     }, sectionRef);

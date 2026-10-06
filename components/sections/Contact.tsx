@@ -27,7 +27,7 @@ export default function Contact() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 75%",
+          start: "top 65%",
         },
       });
 
@@ -38,7 +38,7 @@ export default function Contact() {
         ease: "power4.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%",
+          start: "top 60%",
         },
       });
 
@@ -50,7 +50,7 @@ export default function Contact() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 65%",
+          start: "top 55%",
         },
       });
 
