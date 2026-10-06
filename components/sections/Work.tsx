@@ -383,10 +383,10 @@ export default function Work() {
           {projects.map((project, index) => (
             <article
               key={project.title}
-              className="project-card absolute inset-x-0 mx-auto h-[68vh] max-w-310"
+              className="project-card absolute inset-x-0 mx-auto h-auto min-h-[68vh] max-w-310 md:h-[68vh]"
             >
               <div
-                className="relative grid h-full overflow-hidden border border-white/10 bg-[#101010] md:grid-cols-[1.35fr_0.65fr]"
+                className="relative grid min-h-full overflow-hidden border border-white/10 bg-[#101010] md:h-full md:grid-cols-[1.35fr_0.65fr]"
                 style={{
                   boxShadow: `0 0 120px ${project.accent}08`,
                 }}
