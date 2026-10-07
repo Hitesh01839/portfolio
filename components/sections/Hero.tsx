@@ -245,7 +245,7 @@ export default function Hero() {
       <div className="relative z-10 flex min-h-screen flex-col justify-between px-6 pb-8 pt-32 md:px-10 md:pb-10">
         {/* Label */}
         <div className="hero-label font-mono text-[10px] uppercase tracking-[0.3em] text-[#b7ff3c]">
-          Cybersecurity / Software / Experiments
+          Cybersecurity / Web Dev / Experiments
         </div>
 
         <div className="relative">
@@ -275,7 +275,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="hero-meta hidden max-w-[260px] text-right font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-white/40 md:block">
+            <div className="hero-meta hidden max-w-65 text-right font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-white/40 md:block">
               Building at the intersection of
               <br />
               security, systems &amp; the web.

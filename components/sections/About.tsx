@@ -7,15 +7,26 @@ import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skills = [
-  "PENTESTING",
-  "LINUX",
-  "PYTHON",
-  "NEXT.JS",
-  "AOSP",
-  "WEB SECURITY",
-  "NETWORKING",
-  "SYSTEMS",
+const skillGroups = [
+  {
+    label: "CYBERSECURITY",
+    skills: ["PENTESTING", "WEB SECURITY", "OWASP", "NETWORKING"],
+  },
+  {
+    label: "SYSTEMS",
+    skills: ["LINUX", "AOSP", "ANDROID", "C++", "BASH"],
+  },
+  {
+    label: "SOFTWARE",
+    skills: [
+      "PYTHON",
+      "TYPESCRIPT",
+      "JAVASCRIPT",
+      "NEXT.JS",
+      "REACT",
+      "NODE.JS",
+    ],
+  },
 ];
 
 export default function About() {
@@ -101,18 +112,31 @@ export default function About() {
         <div className="about-line mt-28 h-px w-full bg-white/10" />
 
         {/* Skills */}
-        <div className="mt-10 grid gap-8 md:grid-cols-[1fr_3fr]">
+        <div className="mt-10 grid gap-10 md:grid-cols-[1fr_3fr]">
           <div className="about-reveal font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
             Current toolkit
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
+          <div className="space-y-8">
+            {skillGroups.map((group) => (
               <div
-                key={skill}
-                className="about-reveal border border-white/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 transition-colors duration-300 hover:border-[#b7ff3c]/50 hover:text-[#b7ff3c]"
+                key={group.label}
+                className="about-reveal grid gap-4 md:grid-cols-[140px_1fr]"
               >
-                {skill}
+                <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#b7ff3c]/60">
+                  {group.label}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <div
+                      key={skill}
+                      className="border border-white/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 transition-colors duration-300 hover:border-[#b7ff3c]/50 hover:text-[#b7ff3c]"
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
