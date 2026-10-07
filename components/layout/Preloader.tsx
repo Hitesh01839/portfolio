@@ -5,261 +5,315 @@ import gsap from "gsap";
 
 export default function Preloader() {
   const loaderRef = useRef<HTMLDivElement>(null);
-  const counterRef = useRef<HTMLSpanElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  const scanRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const loader = loaderRef.current;
-    const counter = counterRef.current;
-    const progress = progressRef.current;
-    const scan = scanRef.current;
-    const status = statusRef.current;
-
-    if (!loader || !counter || !progress || !scan || !status) return;
+    if (!loader) return;
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
     if (reducedMotion) {
+      window.dispatchEvent(new Event("preloader-complete"));
       loader.remove();
       return;
     }
 
     document.body.style.overflow = "hidden";
 
-    const counterValue = { value: 0 };
+    const ctx = gsap.context(() => {
+      gsap.set(".preloader-core", {
+        scale: 0,
+        opacity: 0,
+      });
 
-    const statuses = [
-      "INITIALIZING SYSTEM",
-      "LOADING ENVIRONMENT",
-      "CHECKING MODULES",
-      "MOUNTING INTERFACE",
-      "ESTABLISHING CONNECTION",
-      "READY",
-    ];
+      gsap.set(".preloader-ring", {
+        scale: 0.4,
+        opacity: 0,
+        rotation: -20,
+      });
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        document.body.style.overflow = "";
-      },
-    });
+      gsap.set(".preloader-particle", {
+        scale: 0,
+        opacity: 0,
+      });
 
-    // Initial state
-    gsap.set(loader, {
-      yPercent: 0,
-    });
+      gsap.set(".preloader-mark", {
+        scale: 0.8,
+        opacity: 0,
+      });
 
-    gsap.set(progress, {
-      scaleX: 0,
-    });
+      gsap.set(".preloader-caption", {
+        opacity: 0,
+        y: 8,
+      });
 
-    gsap.set(scan, {
-      xPercent: -100,
-    });
+      const tl = gsap.timeline();
 
-    // Status changes
-    statuses.forEach((text, index) => {
-      tl.to(
-        status,
-        {
-          opacity: 0,
-          duration: 0.06,
-        },
-        index === 0 ? 0.05 : index * 0.24,
-      );
+      /*
+       * SINGULARITY
+       */
 
-      tl.set(
-        status,
-        {
-          textContent: text,
-        },
-        index === 0 ? 0.11 : index * 0.24 + 0.06,
-      );
+      tl.to(".preloader-core", {
+        scale: 1,
+        opacity: 1,
+        duration: 0.8,
+        ease: "expo.out",
+      });
+
+      /*
+       * GRAVITATIONAL RINGS
+       */
 
       tl.to(
-        status,
+        ".preloader-ring",
+        {
+          scale: 1,
+          opacity: 1,
+          rotation: 0,
+          duration: 1.2,
+          stagger: 0.12,
+          ease: "expo.out",
+        },
+        "-=0.55",
+      );
+
+      /*
+       * PARTICLES
+       */
+
+      tl.to(
+        ".preloader-particle",
+        {
+          scale: 1,
+          opacity: 0.65,
+          duration: 0.45,
+          stagger: 0.035,
+          ease: "power2.out",
+        },
+        "-=0.8",
+      );
+
+      /*
+       * SMALL MARK
+       */
+
+      tl.to(
+        ".preloader-mark",
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        "-=0.55",
+      );
+
+      /*
+       * CAPTION
+       */
+
+      tl.to(
+        ".preloader-caption",
         {
           opacity: 1,
-          duration: 0.06,
+          y: 0,
+          duration: 0.45,
+          ease: "power3.out",
         },
-        index === 0 ? 0.11 : index * 0.24 + 0.07,
+        "-=0.25",
       );
-    });
 
-    // Counter
-    tl.to(
-      counterValue,
-      {
-        value: 100,
-        duration: 1.5,
-        ease: "power3.inOut",
-        onUpdate: () => {
-          counter.textContent = `${Math.round(counterValue.value)
-            .toString()
-            .padStart(3, "0")}%`;
+      /*
+       * HOLD
+       */
+
+      tl.to(
+        {},
+        {
+          duration: 0.35,
         },
-      },
-      0,
-    );
+      );
 
-    // Progress line
-    tl.to(
-      progress,
-      {
-        scaleX: 1,
-        duration: 1.5,
-        ease: "power3.inOut",
-      },
-      0,
-    );
+      /*
+       * COLLAPSE
+       */
 
-    // Scanning beam
-    tl.to(
-      scan,
-      {
-        xPercent: 100,
-        duration: 1.45,
-        ease: "none",
-      },
-      0,
-    );
+      tl.to(".preloader-caption", {
+        opacity: 0,
+        y: -8,
+        duration: 0.2,
+      });
 
-    // Subtle number movement
-    tl.to(
-      counter,
-      {
-        x: 12,
-        duration: 1.5,
-        ease: "power2.inOut",
-      },
-      0,
-    );
+      tl.to(
+        ".preloader-particle",
+        {
+          scale: 0,
+          opacity: 0,
+          duration: 0.25,
+          stagger: 0.015,
+          ease: "power2.in",
+        },
+        "<",
+      );
 
-    // Final flash
-    tl.to(
-      loader,
-      {
-        backgroundColor: "#b7ff3c",
-        duration: 0.08,
-      },
-      1.5,
-    );
+      tl.to(
+        ".preloader-ring",
+        {
+          scale: 1.35,
+          opacity: 0,
+          rotation: 30,
+          duration: 0.65,
+          stagger: 0.04,
+          ease: "expo.in",
+        },
+        "-=0.1",
+      );
 
-    // Start the Hero reveal as the loader begins leaving
-    tl.call(
-      () => {
+      tl.to(
+        ".preloader-core",
+        {
+          scale: 1.5,
+          opacity: 0,
+          duration: 0.45,
+          ease: "expo.in",
+        },
+        "-=0.45",
+      );
+
+      /*
+       * HERO HANDOFF
+       */
+
+      tl.call(() => {
         window.dispatchEvent(new Event("preloader-complete"));
-      },
-      [],
-      1.58,
-    );
+      });
 
-    // Reveal
-    tl.to(
-      loader,
-      {
-        yPercent: -100,
-        duration: 0.42,
-        ease: "expo.inOut",
-      },
-      1.58,
-    );
+      tl.to(loader, {
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.out",
+      });
+
+      tl.set(loader, {
+        display: "none",
+      });
+
+      return () => {
+        tl.kill();
+      };
+    }, loaderRef);
 
     return () => {
       document.body.style.overflow = "";
-      tl.kill();
+      ctx.revert();
     };
   }, []);
 
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-[10000] overflow-hidden bg-[#080808] text-[#f1f1ed]"
+      className="fixed inset-0 z-[10000] overflow-hidden bg-[#050505] text-[#f1f1ed]"
     >
-      {/* Technical grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.055]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      {/* Ambient lime glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b7ff3c]/10 blur-[120px]"
-        aria-hidden="true"
-      />
-
-      {/* Scan beam */}
-      <div
-        ref={scanRef}
-        className="pointer-events-none absolute inset-y-0 left-0 w-[30vw] bg-gradient-to-r from-transparent via-[#b7ff3c]/10 to-transparent blur-2xl"
-      />
-
-      {/* Top metadata */}
-      <div className="absolute left-6 right-6 top-6 flex items-start justify-between md:left-10 md:right-10 md:top-8">
-        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/40">
-          GH
-          <br />
-          SYSTEM / 01
-        </div>
-
-        <div className="text-right font-mono text-[9px] uppercase tracking-[0.22em]">
-          <div className="text-[#b7ff3c]">Loading...</div>
-          <div className="mt-1 text-white/25">HYDERABAD / IN</div>
-        </div>
-      </div>
-
-      {/* Center */}
+      {/* Central system */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative">
-          {/* Crosshair */}
-          <div className="absolute -left-10 top-1/2 h-px w-6 bg-white/20" />
-          <div className="absolute -right-10 top-1/2 h-px w-6 bg-white/20" />
+        <div className="relative aspect-square w-[70vw] max-w-[620px]">
+          {/* Outer gravitational ring */}
+          <div
+            className="
+              preloader-ring
+              absolute inset-[8%]
+              rounded-[50%]
+              border
+              border-white/[0.14]
+            "
+          />
 
-          <div className="absolute -top-10 left-1/2 h-6 w-px bg-white/20" />
-          <div className="absolute -bottom-10 left-1/2 h-6 w-px bg-white/20" />
+          {/* Distorted middle ring */}
+          <div
+            className="
+              preloader-ring
+              absolute inset-[18%]
+              rounded-[50%]
+              border
+              border-white/[0.09]
+            "
+          />
 
-          <span
-            ref={counterRef}
-            className="block text-[27vw] font-semibold leading-[0.72] tracking-[-0.1em] md:text-[21vw]"
+          {/* Inner ring */}
+          <div
+            className="
+              preloader-ring
+              absolute inset-[29%]
+              rounded-[50%]
+              border
+              border-[#b9b2c9]/20
+            "
+          />
+
+          {/* Event horizon */}
+          <div
+            className="
+              preloader-core
+              absolute left-1/2 top-1/2
+              aspect-square
+              w-[23%]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              bg-[#000000]
+              shadow-[0_0_55px_18px_rgba(255,255,255,0.035)]
+            "
+          />
+
+          {/* White orbital point */}
+          <div className="preloader-particle absolute left-[16%] top-[24%] h-1.5 w-1.5 rounded-full bg-white/70" />
+
+          <div className="preloader-particle absolute right-[19%] top-[31%] h-1 w-1 rounded-full bg-white/50" />
+
+          <div className="preloader-particle absolute right-[26%] bottom-[21%] h-1.5 w-1.5 rounded-full bg-[#b9b2c9]/70" />
+
+          <div className="preloader-particle absolute left-[25%] bottom-[18%] h-1 w-1 rounded-full bg-white/40" />
+
+          <div className="preloader-particle absolute left-[10%] top-[51%] h-1 w-1 rounded-full bg-white/35" />
+
+          <div className="preloader-particle absolute right-[10%] top-[52%] h-1 w-1 rounded-full bg-white/35" />
+
+          {/* Tiny center mark */}
+          <div
+            className="
+              preloader-mark
+              absolute left-1/2 top-1/2
+              -translate-x-1/2
+              -translate-y-1/2
+              font-mono
+              text-[8px]
+              uppercase
+              tracking-[0.45em]
+              text-white/30
+            "
           >
-            000%
-          </span>
+            01
+          </div>
         </div>
       </div>
 
-      {/* Bottom information */}
-      <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-10 md:right-10">
-        <div className="mb-4 flex items-end justify-between">
-          <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/35">
-            <span ref={statusRef}>INITIALIZING SYSTEM</span>
-          </div>
-
-          <div className="hidden font-mono text-[9px] uppercase tracking-[0.2em] text-white/25 sm:block">
-            CYBERSECURITY / SOFTWARE / SYSTEMS
-          </div>
-        </div>
-
-        {/* Progress */}
-        <div className="relative h-px w-full bg-white/10">
-          <div
-            ref={progressRef}
-            className="absolute inset-y-0 left-0 w-full origin-left bg-[#b7ff3c]"
-          />
-        </div>
-
-        <div className="mt-3 flex justify-between font-mono text-[8px] uppercase tracking-[0.2em] text-white/20">
-          <span>BOOT SEQUENCE</span>
-          <span>HITESH GANGA</span>
-        </div>
+      {/* Minimal caption */}
+      <div
+        className="
+          preloader-caption
+          absolute bottom-8
+          left-1/2
+          -translate-x-1/2
+          font-mono
+          text-[8px]
+          uppercase
+          tracking-[0.35em]
+          text-white/30
+        "
+      >
+        Entering system
       </div>
     </div>
   );
