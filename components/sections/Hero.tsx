@@ -22,7 +22,7 @@ export default function Hero() {
 
     const ctx = gsap.context(() => {
       // --------------------------------
-      // Initial Hero state
+      // Initial state
       // --------------------------------
 
       gsap.set(".hero-nav", {
@@ -31,7 +31,7 @@ export default function Hero() {
       });
 
       gsap.set(".hero-label", {
-        y: 25,
+        y: 20,
         opacity: 0,
       });
 
@@ -41,9 +41,9 @@ export default function Hero() {
       });
 
       gsap.set(".hero-orbit", {
-        scale: 0.5,
+        scale: 0.65,
         opacity: 0,
-        rotate: -25,
+        rotate: -30,
       });
 
       gsap.set(".hero-meta", {
@@ -81,7 +81,7 @@ export default function Hero() {
             {
               y: 0,
               opacity: 1,
-              duration: 1.1,
+              duration: 1.15,
               stagger: 0.08,
               ease: "expo.out",
             },
@@ -96,7 +96,7 @@ export default function Hero() {
               duration: 1.4,
               ease: "power3.out",
             },
-            "-=0.9",
+            "-=0.95",
           )
           .to(
             ".hero-meta",
@@ -105,12 +105,12 @@ export default function Hero() {
               opacity: 1,
               duration: 0.7,
             },
-            "-=0.75",
+            "-=0.8",
           );
       };
 
       // --------------------------------
-      // Wait for Preloader
+      // Preloader handoff
       // --------------------------------
 
       window.addEventListener("preloader-complete", playHeroReveal);
@@ -118,8 +118,6 @@ export default function Hero() {
       // --------------------------------
       // Safety fallback
       // --------------------------------
-      // If the event somehow doesn't fire,
-      // don't leave the Hero invisible.
 
       const fallback = window.setTimeout(() => {
         playHeroReveal();
@@ -145,7 +143,7 @@ export default function Hero() {
       const y = (event.clientY / window.innerHeight - 0.5) * 2;
 
       gsap.to(".hero-orbit", {
-        x: x * 18,
+        x: x * 22,
         y: y * 18,
         duration: 1.2,
         ease: "power3.out",
@@ -153,7 +151,7 @@ export default function Hero() {
       });
 
       gsap.to(".hero-name", {
-        x: x * 4,
+        x: x * 3,
         y: y * 2,
         duration: 1.4,
         ease: "power3.out",
@@ -161,7 +159,7 @@ export default function Hero() {
       });
 
       gsap.to(".hero-label", {
-        x: x * 6,
+        x: x * 5,
         duration: 1.2,
         ease: "power3.out",
         overwrite: true,
@@ -199,92 +197,109 @@ export default function Hero() {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-[#f1f1ed]"
+      className="relative min-h-screen overflow-hidden bg-[#0d0d0d] text-[#f1f1ed]"
     >
-      {/* Grid */}
       <div
-        className="pointer-events-none absolute inset-0 z-1 opacity-[0.08]"
+        className="pointer-events-none absolute left-[58%] top-[42%] z-0 h-[55vw] w-[55vw] max-h-[700px] max-w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, #ffffff 1px, transparent 1px),
-            linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
+          background:
+            "radial-gradient(circle, rgba(183,255,60,0.055) 0%, rgba(183,255,60,0.018) 28%, transparent 68%)",
         }}
       />
+      {/* --------------------------------
+          Navigation
+      -------------------------------- */}
 
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute left-[55%] top-[30%] z-1 h-125 w-125 -translate-x-1/2 rounded-full bg-[#b7ff3c]/10 blur-[140px]" />
-
-      {/* Navigation */}
-      <nav className="hero-nav absolute left-0 top-0 z-20 flex w-full items-center justify-between px-6 py-6 md:px-10">
+      <nav className="hero-nav absolute left-0 top-0 z-30 flex w-full items-center justify-between px-6 py-6 md:px-10 md:py-8">
         <div className="font-mono text-xs tracking-[0.25em] text-white/60">
           GH / 01
         </div>
 
-        <div className="flex gap-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <div className="flex gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 md:gap-7">
           <Magnetic strength={0.4}>
-            <a href="#about">ABOUT</a>
+            <a href="#about">About</a>
           </Magnetic>
 
           <Magnetic strength={0.4}>
-            <a href="#work">WORK</a>
+            <a href="#work">Work</a>
           </Magnetic>
 
           <Magnetic strength={0.4}>
-            <a href="#lab">LAB</a>
+            <a href="#lab">Lab</a>
           </Magnetic>
 
           <Magnetic strength={0.4}>
-            <a href="#contact">CONTACT</a>
+            <a href="#contact">Contact</a>
           </Magnetic>
         </div>
       </nav>
 
-      {/* Main composition */}
-      <div className="relative z-10 flex min-h-screen flex-col justify-between px-6 pb-8 pt-32 md:px-10 md:pb-10">
-        {/* Label */}
-        <div className="hero-label font-mono text-[10px] uppercase tracking-[0.3em] text-[#b7ff3c]">
-          Cybersecurity / Web Dev / Experiments
+      {/* --------------------------------
+          Main composition
+      -------------------------------- */}
+
+      <div className="relative z-10 flex min-h-screen flex-col px-6 pb-7 pt-32 md:px-10 md:pb-9 md:pt-36">
+        {/* Discipline label */}
+
+        <div className="hero-label max-w-md font-mono text-[10px] uppercase leading-relaxed tracking-[0.28em] text-[#b7ff3c]">
+          Cybersecurity
+          <span className="mx-2 text-white/20">/</span>
+          Software
+          <span className="mx-2 text-white/20">/</span>
+          Systems
         </div>
 
-        <div className="relative">
-          {/* Orbit */}
-          <div className="hero-orbit pointer-events-none absolute right-[8%] top-[-35%] hidden aspect-square w-[30vw] max-w-107.5 min-w-65 md:block">
-            <div className="absolute inset-0 rounded-full border border-white/15" />
+        {/* --------------------------------
+            Name + orbit
+        -------------------------------- */}
 
-            <div className="absolute inset-[12%] rounded-full border border-white/10" />
+        <div className="relative mt-auto">
+          <div className="hero-orbit pointer-events-none absolute right-[-8vw] top-[-42%] z-0 hidden aspect-square w-[48vw] max-w-170 min-w-[320px] md:block">
+            {/* Main orbit */}
+            <div className="absolute inset-0 rounded-full border border-white/40">
+              <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b7ff3c] shadow-[0_0_24px_#b7ff3c]" />
+            </div>
 
-            <div className="absolute left-1/2 -top-1.5 h-3 w-3 -translate-x-1/2 rounded-full bg-[#b7ff3c] shadow-[0_0_30px_#b7ff3c]" />
+            {/* Secondary orbit */}
+            <div className="absolute inset-[13%] rounded-full border border-white/22">
+              <div className="absolute bottom-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-[#8b5cf6] shadow-[0_0_20px_#8b5cf6]" />
+            </div>
 
-            <div className="absolute bottom-[18%] left-[10%] h-2 w-2 rounded-full bg-[#8b5cf6] shadow-[0_0_25px_#8b5cf6]" />
+            {/* Inner orbit */}
+            <div className="absolute inset-[29%] rounded-full border border-white/14">
+              <div className="absolute right-0 top-1/2 h-1.5 w-1.5 translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70" />
+            </div>
           </div>
+          {/* Name */}
 
-          {/* HITESH */}
-          <div className="overflow-hidden">
-            <h1 className="hero-name text-[18vw] font-semibold leading-[0.72] tracking-[-0.075em] md:text-[15vw]">
+          <div className="relative z-10 overflow-hidden">
+            <h1 className="hero-name whitespace-nowrap text-[20vw] font-semibold leading-[0.68] tracking-[-0.085em] md:text-[16vw]">
               HITESH
             </h1>
           </div>
 
-          {/* GANGA + description */}
-          <div className="mt-5 flex items-end justify-between">
-            <div className="overflow-hidden">
-              <div className="hero-name text-[7vw] font-light leading-none tracking-[-0.06em] text-white/45 md:text-[5vw]">
+          <div className="mt-4 flex items-end justify-between md:mt-5">
+            <div className="relative z-10 overflow-hidden">
+              <div className="hero-name whitespace-nowrap text-[8vw] font-light leading-none tracking-[-0.065em] text-white/40 md:text-[5.5vw]">
                 GANGA
               </div>
             </div>
 
-            <div className="hero-meta hidden max-w-65 text-right font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-white/40 md:block">
-              Building at the intersection of
+            <div className="hero-meta hidden max-w-70 text-right font-mono text-[10px] uppercase leading-[1.7] tracking-[0.15em] text-white/40 md:block">
+              Security, software &amp;
               <br />
-              security, systems &amp; the web.
+              systems — built from the
+              <br />
+              inside out.
             </div>
           </div>
         </div>
 
-        {/* Bottom metadata */}
-        <div className="hero-meta flex items-end justify-between border-t border-white/10 pt-4 font-mono text-[9px] uppercase tracking-[0.2em] text-white/35">
+        {/* --------------------------------
+            Bottom metadata
+        -------------------------------- */}
+
+        <div className="hero-meta mt-auto flex items-end justify-between border-t border-white/10 pt-4 font-mono text-[9px] uppercase tracking-[0.2em] text-white/35">
           <span>Hyderabad, India</span>
 
           <span>Scroll to explore ↓</span>
