@@ -151,11 +151,10 @@ export default function Hero() {
       });
 
       gsap.to(".hero-name", {
-        x: x * 3,
-        y: y * 2,
+        x: x * 4,
         duration: 1.4,
         ease: "power3.out",
-        overwrite: true,
+        overwrite: "auto",
       });
 
       gsap.to(".hero-label", {
@@ -253,7 +252,7 @@ export default function Hero() {
             Name + orbit
         -------------------------------- */}
 
-        <div className="relative mt-auto">
+        <div className="relative mt-auto mb-12 md:mb-16">
           <div className="hero-orbit pointer-events-none absolute right-[-8vw] top-[-42%] z-0 hidden aspect-square w-[48vw] max-w-170 min-w-[320px] md:block">
             {/* Main orbit */}
             <div className="absolute inset-0 rounded-full border border-white/40">
@@ -273,14 +272,14 @@ export default function Hero() {
           {/* Name */}
 
           <div className="relative z-10 overflow-hidden">
-            <h1 className="hero-name whitespace-nowrap text-[20vw] font-semibold leading-[0.68] tracking-[-0.085em] md:text-[16vw]">
+            <h1 className="hero-name whitespace-nowrap text-[20vw] font-semibold leading-[0.8] tracking-[-0.085em] md:text-[15vw] lg:text-[14vw]">
               HITESH
             </h1>
           </div>
 
           <div className="mt-4 flex items-end justify-between md:mt-5">
             <div className="relative z-10 overflow-hidden">
-              <div className="hero-name whitespace-nowrap text-[8vw] font-light leading-none tracking-[-0.065em] text-white/40 md:text-[5.5vw]">
+              <div className="hero-name whitespace-nowrap text-[8vw] font-light leading-none tracking-[-0.065em] text-white/40 md:text-[5vw] lg:text-[4.5vw]">
                 GANGA
               </div>
             </div>
